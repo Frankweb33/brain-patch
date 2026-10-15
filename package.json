@@ -1,0 +1,10 @@
+{
+  "name": "brain-patch",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A local-first decision review prototype for spotting reasoning traps before a trade.",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": { "start": "node server.mjs", "test": "node --test", "demo": "node cli.mjs --example" },
+  "license": "MIT"
+}
