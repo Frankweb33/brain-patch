@@ -6,6 +6,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'">
   <title>Brain Patch — Before the next click.</title>
   <link rel="icon" href="assets/mark.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="motion.css">
   <script type="module" src="src/app.mjs"></script>
 </head>
 <body>
@@ -29,7 +30,7 @@
       <div class="form-row"><div><label for="position">Position %</label><input id="position" type="number" min="0" max="100" step="0.1" required></div><div><label for="limit">Your own limit %</label><input id="limit" type="number" min="0" max="100" step="0.1" required></div></div>
       <button class="primary" id="review-button" type="submit">Review my reasoning <span>↗</span></button><p id="error" role="alert"></p></form>
     </section>
-    <div class="right-column"><section class="panel brain-panel"><div class="brain-top"><span class="eyebrow">THE REVIEW LAYER</span><span class="mini">SCHEMATIC · NOT BRAIN DATA</span></div><canvas id="brain" aria-label="Abstract animated neural network, decorative schematic"></canvas><div class="brain-caption"><strong>Pause. Then think again.</strong><span>Human judgment stays at the center.</span></div><div class="roles"><div><i></i> Researcher<small>Evidence present?</small></div><div><i></i> Skeptic<small>What breaks it?</small></div><div><i></i> Rule checker<small>Limits intact?</small></div><div><i></i> Memory<small>What changed?</small></div></div><p class="role-note">Four rule-based checks today. LLM agents are a future integration.</p></section>
+    <div class="right-column"><section class="panel brain-panel"><div class="brain-top"><span class="eyebrow">THE REVIEW LAYER</span><span class="mini">SCHEMATIC · NOT BRAIN DATA</span></div><canvas id="brain" aria-label="Abstract animated neural network, decorative schematic"></canvas><div class="brain-caption"><strong>Pause. Then think again.</strong><span id="brain-status" role="status">Human judgment stays at the center.</span></div><div class="roles"><div><i></i> Researcher<small>Evidence present?</small></div><div><i></i> Skeptic<small>What breaks it?</small></div><div><i></i> Rule checker<small>Limits intact?</small></div><div><i></i> Memory<small>What changed?</small></div></div><div class="review-progress" aria-hidden="true"><span></span></div><p class="role-note">Four rule-based checks today. LLM agents are a future integration.</p></section>
       <section class="panel review-panel" aria-labelledby="result-title"><div class="panel-head"><span class="step">02</span><h2 id="result-title">The second look</h2><span class="mini" id="review-state">EXAMPLE REVIEW</span></div><div class="review-summary"><div><span id="flag-number">—</span><small>review flags</small></div><p id="review-summary"></p></div><div id="findings" aria-live="polite"></div><div id="changes"></div><div class="review-actions"><button id="save">Save decision receipt <span>＋</span></button><button id="export-review">Export JSON ↗</button></div><p class="fineprint">Possible reasoning traps, not a diagnosis or a buy/sell signal. An unflagged decision can still be wrong.</p></section>
     </div>
   </div>

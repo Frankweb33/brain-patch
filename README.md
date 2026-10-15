@@ -1,14 +1,18 @@
+![Your brain has bugs. I'm building the AI patch.](assets/article-cover.png)
+
 # Brain Patch
 
 ### Your brain has bugs. Keep the plan in view.
 
 A local-first decision review prototype. Write down your reasoning before a trade, inspect possible cognitive-bias cues, and keep the original plan beside your next explanation.
 
-![Brain Patch: Your brain has bugs. Keep the plan in view.](assets/cover.svg)
-
 **Working offline demo · 8 transparent checks · Local journal · MIT**
 
 This is the first small implementation of the “AI patch” idea: an external review layer between an impulse and a decision. The current backend is deterministic JavaScript, **not a connected LLM or a clinical bias detector**. The animated brain is a decorative schematic.
+
+![Animated Brain Patch review loop](assets/review-loop.gif)
+
+*Animated schematic of the local review stages. Example flags come from the included scenario; the brain and moving signals are illustrative, not measured neural activity.*
 
 ## Run it
 
@@ -36,7 +40,7 @@ node cli.mjs --file examples/decision.json
 - Position-limit arithmetic and missing-information checks.
 - A browser-local journal. Load an earlier receipt, edit the plan, then review to see what changed while the evidence stayed the same.
 - JSON exports of an individual review or the whole journal.
-- Three synthetic scenarios, an abstract animated neural schematic, responsive layouts and reduced-motion support.
+- Three synthetic scenarios, traveling signal pulses, a rotating neural schematic, animated review stages and result reveals. Reduced-motion preferences are respected.
 
 The four review roles are **real local checks**, not four remote agents: Researcher checks whether evidence was supplied; Skeptic checks whether you wrote a reconsideration condition; Rule checker compares the position with your limit; Memory compares revisions. None verifies external facts.
 
