@@ -1,0 +1,16 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { reviewDecision,normalizeDecision,SCENARIOS,RULES } from '../src/engine.mjs';
+const base={...SCENARIOS.considered};
+const cues=['only bullish','back to the high','winning wallets','everyone is buying','trusted caller','already invested','three wins','worked last time'];
+for(let i=0;i<RULES.length;i++)test(`detects configured cue: ${RULES[i].name}`,()=>{const r=reviewDecision({...base,thesis:`My reasoning is ${cues[i]}.`});assert.ok(r.findings.some(f=>f.id===RULES[i].id));});
+test('considered sample has no configured flags',()=>{const r=reviewDecision(base);assert.equal(r.flagCount,0);assert.match(r.limitation,/clean review does not mean a safe trade/);});
+test('missing evidence and reconsideration are visible',()=>{const r=reviewDecision({...base,evidence:'',invalidation:''});assert.ok(r.checks.some(c=>c.id==='evidence'));assert.ok(r.checks.some(c=>c.id==='invalidation'));});
+test('position arithmetic uses user limit',()=>{const r=reviewDecision({...base,positionPct:8,maxPositionPct:5});assert.ok(r.checks.some(c=>c.id==='size'));});
+test('plan drift compares current and previous evidence',()=>{const r=reviewDecision({...base,positionPct:7,horizon:'One year'},base);assert.equal(r.changes.length,2);assert.ok(r.checks.some(c=>c.id==='drift'));});
+test('new evidence is not labelled unchanged evidence',()=>{const r=reviewDecision({...base,positionPct:7,evidence:'A new observation.'},base);assert.ok(!r.checks.some(c=>c.id==='drift'));});
+test('empty and malformed inputs fail safely',()=>{assert.throws(()=>reviewDecision(null),/12 characters/);assert.throws(()=>reviewDecision({thesis:'x'}));assert.equal(normalizeDecision({positionPct:Infinity}).positionPct,0);assert.equal(normalizeDecision({positionPct:-4}).positionPct,0);assert.equal(normalizeDecision({positionPct:500}).positionPct,100);});
+test('zero limit is flagged as missing',()=>assert.ok(reviewDecision({...base,maxPositionPct:0}).checks.some(c=>c.id==='limit')));
+test('scenario fixtures work without a network',()=>{for(const sample of Object.values(SCENARIOS))assert.equal(reviewDecision(sample).mode,'local-heuristic');});
+test('does not modify the original receipt',()=>{const input={...base};reviewDecision(input);assert.deepEqual(input,base);});
+test('user text is returned as data, not executed',()=>{const r=reviewDecision({...base,thesis:'<script>alert("test")</script> this is a reasoning example.'});assert.match(r.decision.thesis,/<script>/);assert.equal(r.findings.length,0);});
